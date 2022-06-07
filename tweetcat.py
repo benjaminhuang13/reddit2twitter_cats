@@ -1,7 +1,10 @@
 # https://www.reddit.com/r/Catswithjobs/
 # https://www.reddit.com/r/CatsInBusinessAttire/
 # https://twitter.com/CatWorkers
-
+# I was able to download images using something like
+# req = requests.get(lnk) if not req.ok: raise Exception("Bad image Link") filePath = './images/{0}.png'.format(uuid.uuid4()) with open(filePath, 'wb') as handler: handler.write(req.content) data["imageLink"] = filePath return data
+#https://www.reddit.com/dev/api/
+#https://www/reddit.com/pres/apps
 
 from os import environ
 from datetime import datetime, timedelta
@@ -21,7 +24,9 @@ client_auth = requests.auth.HTTPBasicAuth(environ['REDDIT_API_SECRET'], environ[
 post_data = {
     'grant_type': 'password',
     'username' : environ['REDDIT_USERNAME'],
-    'password' :environ['REDDIT_PW']
+    'password' : environ['REDDIT_PW'],
+    'duration': 'permanent',
+    'scope': '*'
 }
 headers = {'User-Agent': 'TwitterCatAPI/0.0.1 by Bargonzo'}
 #Getting Token Access ID
