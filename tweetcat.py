@@ -73,7 +73,7 @@ try:
                     access_token=ACCESS_TOKEN,
                     access_token_secret=ACCESS_SECRET)
         try:
-            twitterresponse = client.create_tweet(text=title, media="/redditimg.jpg")
+            twitterresponse = client.create_tweet(text=title)
         
             print(twitterresponse)
         except:
