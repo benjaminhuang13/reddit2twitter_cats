@@ -72,21 +72,19 @@ try:
                     consumer_secret=CONSUMER_SECRET,
                     access_token=ACCESS_TOKEN,
                     access_token_secret=ACCESS_SECRET)
-        try:
-            twitterresponse = client.create_tweet(text=title)
+        # try:
+        #     twitterresponse = client.create_tweet(text=title)
         
-            print(twitterresponse)
-        except:
-            print('Failed to post')
+        #     print(twitterresponse)
+        # except:
+        #     print('Failed to post')
 
-        try:
-            tweet_api.verify_credentials()
-            print('Successful Authentication')
-        except:
-            print('Failed Authentication')
-        tweet_api.update_status(title)
-
-
+        
+        tweet_api.verify_credentials()
+        print('Successful Authentication')
+        # tweet_api.update_status(title)
+        # tweet_api.media_upload('redditimg.jpg', title)
+        tweet_api.update_status_with_media(title, 'redditimg.jpg')
         # for e in to_extract:
         #     titleAndLink = posts[1]['data'][e]
         #     print(f"{e}: {posts[1]['data'][e]}")
