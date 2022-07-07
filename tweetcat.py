@@ -1,4 +1,3 @@
-
 import sys
 import os
 from os.path import exists
@@ -13,6 +12,7 @@ import urllib
 import tweepy
 
 import pickle
+from keep_alive import keep_alive
 
 #Authenticate Reddit App
 client_auth = requests.auth.HTTPBasicAuth(os.environ['REDDIT_PERSONAL_USE_SCRIPT'], os.environ['REDDIT_API_SECRET'])
@@ -101,3 +101,4 @@ except Exception as e:
     print(message)
     print(exc_type, fname, exc_tb.tb_lineno)
 
+keep_alive()
