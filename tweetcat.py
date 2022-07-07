@@ -1,22 +1,18 @@
-# https://www.reddit.com/r/Catswithjobs/
-# https://www.reddit.com/r/CatsInBusinessAttire/
-# https://twitter.com/CatWorkers
-# I was able to download images using something like
-# req = requests.get(lnk) if not req.ok: raise Exception("Bad image Link") filePath = './images/{0}.png'.format(uuid.uuid4()) with open(filePath, 'wb') as handler: handler.write(req.content) data["imageLink"] = filePath return data
-#https://www.reddit.com/dev/api/
-#https://www/reddit.com/pres/apps
+
+import sys
 import os
+from os.path import exists
 from os import environ
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 load_dotenv()
-# import tweepy
-# import gspread
 
 import requests 
 import requests.auth
 import urllib
 import tweepy
+
+import pickle
 
 #Authenticate Reddit App
 client_auth = requests.auth.HTTPBasicAuth(os.environ['REDDIT_PERSONAL_USE_SCRIPT'], os.environ['REDDIT_API_SECRET'])
@@ -29,9 +25,23 @@ post_data = {
     'scope': '*'
 }
 headers = {'User-Agent': 'TwitterCatAPI/0.0.1 by Bargonzo'}
-#Getting Token Access ID
+#Getting Reddit Token Access ID
 TOKEN_ACCESS_ENDPOINT = 'https://www.reddit.com/api/v1/access_token'
 response = requests.post(TOKEN_ACCESS_ENDPOINT, data=post_data, headers=headers, auth=client_auth)
+#Twitter Access Data and Authentication
+CONSUMER_KEY = os.environ['CONSUMER_KEY']
+CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+ACCESS_SECRET = os.environ['ACCESS_SECRET']
+auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+tweet_api = tweepy.API(auth)
+client = tweepy.Client(consumer_key=CONSUMER_KEY,
+            consumer_secret=CONSUMER_SECRET,
+            access_token=ACCESS_TOKEN,
+            access_token_secret=ACCESS_SECRET)  
+tweet_api.verify_credentials()
+print('Successful Authentication')
 
 try:
     if response.status_code == 200:
@@ -44,51 +54,36 @@ try:
             'User-Agent': 'TwitterCatAPI/0.0.1 by Bargonzo',
             'Authorization' :'Bearer ' + token_id
         }
-        response2 = requests.get(OAUTH_ENDPOINT + '/r/catswithjobs/hot/', headers = headers_get, params=params_get)
+        response2 = requests.get(OAUTH_ENDPOINT + '/r/catswithjobs/new/', headers = headers_get, params=params_get)
         data = response2.json()
         posts = data['data']['children']
-        after_key = data['data']['after']
-        before_key = data['data']['before']
-        to_extract = ['title','url']
-
-        title = posts[1]['data']['title']
-        imageURL = posts[1]['data']['url']
-        if(posts[1]['data']['is_video']):
-            urllib.request.urlretrieve(imageURL, "redditvid.mp4")
-        else:
-            urllib.request.urlretrieve(imageURL, "redditimg.jpg")
-        #assess twitter
-        CONSUMER_KEY = os.environ['CONSUMER_KEY']
-        CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-        ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-        ACCESS_SECRET = os.environ['ACCESS_SECRET']
-
-        auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-        auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
-
-        tweet_api = tweepy.API(auth)
-
-        client = tweepy.Client(consumer_key=CONSUMER_KEY,
-                    consumer_secret=CONSUMER_SECRET,
-                    access_token=ACCESS_TOKEN,
-                    access_token_secret=ACCESS_SECRET)
-        # try:
-        #     twitterresponse = client.create_tweet(text=title)
-        
-        #     print(twitterresponse)
-        # except:
-        #     print('Failed to post')
-
-        
-        tweet_api.verify_credentials()
-        print('Successful Authentication')
-        # tweet_api.update_status(title)
-        # tweet_api.media_upload('redditimg.jpg', title)
-        tweet_api.update_status_with_media(title, 'redditimg.jpg')
-        # for e in to_extract:
-        #     titleAndLink = posts[1]['data'][e]
-        #     print(f"{e}: {posts[1]['data'][e]}")
-        #     print(titleAndLink)
+        # after_key = data['data']['after']
+        # before_key = data['data']['before']
+        with open('postIDs.pkl', 'rb') as f:
+            listOfPostId = pickle.load(f)
+        count = 0
+        # Will check if posts IDs are already in pickle file, if they arent they will be posted on twitter
+        while(count<3):
+            to_extract = ['title','url','id']
+            
+            if not(posts[count]['data']['is_video']) and posts[count]['data']['id'] not in listOfPostId and 'jpg' in posts[count]['data']['url']:
+                for e in to_extract:
+                    print(f"{e}: {posts[count]['data'][e]}")
+                title = posts[count]['data']['title']
+                imageURL = posts[count]['data']['url']
+                urllib.request.urlretrieve(imageURL, "redditimg.jpg")
+                listOfPostId.append(posts[count]['data']['id'])
+                tweet_api.update_status_with_media(title, 'redditimg.jpg')
+                print('image posted on twitter')
+            else:
+                print("Reddit post already posted on twitter")
+            count+=1
+        with open('postIDs.pkl', 'wb') as f:
+            pickle.dump(listOfPostId, f)
+        if(exists('redditimg.jpg')):
+            os.remove('redditimg.jpg')
+            print('Image removed')
+        print(listOfPostId)
 
         # printing reddit post keys
         # for post in posts[0]['data'].keys():
@@ -96,8 +91,13 @@ try:
 
         # print("before key: " + str(before_key))
         # print("after key: " + str(after_key))
+  
+except Exception as e:
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 
-except Exception as ex:
     template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-    message = template.format(type(ex).__name__, ex.args)
+    message = template.format(type(e).__name__, e.args)
     print(message)
+    print(exc_type, fname, exc_tb.tb_lineno)
+
