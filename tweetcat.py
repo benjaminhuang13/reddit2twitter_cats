@@ -67,6 +67,18 @@ try:
         auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 
         tweet_api = tweepy.API(auth)
+
+        client = tweepy.Client(consumer_key=CONSUMER_KEY,
+                    consumer_secret=CONSUMER_SECRET,
+                    access_token=ACCESS_TOKEN,
+                    access_token_secret=ACCESS_SECRET)
+        try:
+            twitterresponse = client.create_tweet(text=title, media="/redditimg.jpg")
+        
+            print(twitterresponse)
+        except:
+            print('Failed to post')
+
         try:
             tweet_api.verify_credentials()
             print('Successful Authentication')
