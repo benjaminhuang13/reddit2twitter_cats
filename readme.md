@@ -1,6 +1,6 @@
 ## 2023 Update: Twitter shut off it's Free API. This twitter project is now deprecated.
 
-# Reddit 2 Twitter Bot
+# Reddit 2 Twitter Cat Bot
 This app takes posts from the Sub-Reddit https://www.reddit.com/r/Catswithjobs/ and re-post it onto Twitter https://twitter.com/employedcats. 
 In order to accomplish this, I had to apply for a Reddit developer account: https://www.reddit.com/prefs/apps
 
