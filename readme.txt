@@ -1,4 +1,4 @@
-2023 Update: Twitter shut off it's Free API. This twitter project is now deprecated.
+# 2023 Update: Twitter shut off it's Free API. This twitter project is now deprecated.
 
 This app takes the first post from the subreddit https://www.reddit.com/r/Catswithjobs/ and post it on twitter https://twitter.com/employedcats
 I had to get a developer account for Reddit: https://www.reddit.com/prefs/apps
