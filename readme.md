@@ -23,9 +23,9 @@ To gain proper Twitter API access, I had to request for a developer account: htt
 
 
 ## Additional Resources/Notes:
-https://www.reddit.com/r/Catswithjobs/
-https://www.reddit.com/r/CatsInBusinessAttire/
-https://twitter.com/CatWorkers
-https://www.reddit.com/dev/api/
-https://www/reddit.com/pres/apps
-https://github.com/tweepy/tweepy/releases/tag/v4.0.0
+- https://www.reddit.com/r/Catswithjobs/
+- https://www.reddit.com/r/CatsInBusinessAttire/
+- https://twitter.com/CatWorkers
+- https://www.reddit.com/dev/api/
+- https://www/reddit.com/pres/apps
+- https://github.com/tweepy/tweepy/releases/tag/v4.0.0
