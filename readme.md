@@ -6,16 +6,16 @@ In order to accomplish this, I had to apply for a Reddit developer account: http
 
 ## Credentials Needed`
 The credentials are stored in an environment file that is included in this repo. The format of the .env file:
-    `CONSUMER_KEY=""`
-    `CONSUMER_SECRET=""`
-    `ACCESS_TOKEN=""`
-    `ACCESS_SECRET=""`
-    `BEARER_TOKEN=""`
+    `CONSUMER_KEY=""
+    CONSUMER_SECRET=""
+    ACCESS_TOKEN=""
+    ACCESS_SECRET=""
+    BEARER_TOKEN=""`
 
-    `REDDIT_API_SECRET=""`
-    `REDDIT_PERSONAL_USE_SCRIPT=""`
-    `REDDIT_USERNAME=""`
-    `REDDIT_PW=""`
+    `REDDIT_API_SECRET=""
+    REDDIT_PERSONAL_USE_SCRIPT=""
+    REDDIT_USERNAME=""
+    REDDIT_PW=""`
 
 To gain proper Twitter API access, I had to request for a developer account: https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api. I then had to request for Essential level access. More info about access levels can be found here: https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api
 
