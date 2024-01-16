@@ -1,10 +1,10 @@
-## 2023 Update: Twitter shut off it's Free API. This twitter project is now deprecated.
+## 2023 Update: Twitter (Now known as X) shut down it's Free API. This project is now deprecated and the page stopped posting.
 
 # Reddit 2 Twitter Cat Bot
 This app takes posts from the Sub-Reddit https://www.reddit.com/r/Catswithjobs/ and re-post it onto Twitter https://twitter.com/employedcats. 
 In order to accomplish this, I had to apply for a Reddit developer account: https://www.reddit.com/prefs/apps
 
-## Credentials Needed`
+## Credentials Needed
 The credentials are stored in an environment file that is included in this repo. The format of the .env file:
 
     
